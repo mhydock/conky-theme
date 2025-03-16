@@ -1,0 +1,50 @@
+#!/bin/bash
+set -eu
+
+# It seems that in conky the execi command will start before curl has completely
+# written the file. For some reason adding a sleep before calling curl fixes it.
+sleep 2
+
+icons=~/".conky/my_theme/icons"
+cache=~/".cache/conky_weather"
+
+forecast="$cache/forecast.json"
+filtered="$cache/filtered.json"
+
+api_prefix="api.openweathermap.org/data/2.5/"
+
+appid="APPID=$1"
+id="&id=$2"
+units="&units=$3"
+lang="" ; [[ -v 4 ]] && lang="${4%%_*}" lang="&lang=$lang"
+
+curl -s "${api_prefix}forecast?${appid}${id}${units}${lang}" -o "$forecast"
+
+query='.city.timezone as $timezone |
+{
+    now:.list[0]|pick(.main, .weather, .wind),
+    list:[
+        .list[]|{
+            main: .main|pick(.temp_min, .temp_max), 
+            weather,
+            dt,
+            date: (.dt + $timezone)|todate|split("T")[0]
+        }
+    ] | group_by(.date) | [
+        .[]|{
+            date: .[0].date,
+            min:min_by(.main.temp_min)|.main.temp_min | round,
+            max:max_by(.main.temp_max)|.main.temp_max | round,
+            weather: [.[]|.weather[0]]| group_by(.id) | sort_by(-(.|length)) | .[0][0]
+        }
+    ],
+    city: {name:.city.name, country: .city.country, sunrise: .city.sunrise, sunset: .city.sunset}
+}'
+
+jq "$query" "$forecast" > "$filtered"
+
+cp -f "$icons/32/$(jq -r '.list[1].weather.id' $cache/filtered.json).png" "$cache/weather-1.png"
+cp -f "$icons/32/$(jq -r '.list[2].weather.id' $cache/filtered.json).png" "$cache/weather-2.png"
+cp -f "$icons/32/$(jq -r '.list[3].weather.id' $cache/filtered.json).png" "$cache/weather-3.png"
+cp -f "$icons/32/$(jq -r '.list[4].weather.id' $cache/filtered.json).png" "$cache/weather-4.png"
+cp -f "$icons/32/$(jq -r '.list[5].weather.id' $cache/filtered.json).png" "$cache/weather-5.png"

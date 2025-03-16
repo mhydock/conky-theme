@@ -1,0 +1,20 @@
+#!/bin/bash
+set -eu
+
+mounted_json=$(findmnt --real -J --list -o TARGET,LABEL,SOURCE)
+
+mounted_txt=$(jq --raw-output '
+.filesystems
+| map(select(.target| contains("media")), select(.target| contains("mnt")))
+| map({target, name: (.label // .source)})
+| sort_by(.name)
+| map("\n${color grey}\(.name)$color$alignr${fs_used \(.target)}/${fs_size \(.target)}
+${lua_parse gen_color ${fs_used_perc \(.target)}}${fs_bar 6 \(.target)}")[]' <<< "$mounted_json")
+
+echo "\${color grey}/\$color\$alignr\${fs_used /}/\${fs_size /}"
+echo "\${lua_parse gen_color \${fs_used_perc /}}\${fs_bar 6 /}"
+echo ""
+echo "\${color grey}/home\$color\$alignr\${fs_used /home}/\${fs_size /home}"
+echo "\${lua_parse gen_color \${fs_used_perc /home}}\${fs_bar 6 /home}"
+
+echo "$mounted_txt"

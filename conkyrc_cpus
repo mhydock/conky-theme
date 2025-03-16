@@ -1,79 +1,76 @@
-# Conky, a system monitor, based on torsmo
-#
-# Any original torsmo code is licensed under the BSD license
-#
-# All code written since the fork of torsmo is licensed under the GPL
-#
-# Please see COPYING for details
-#
-# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
-# Copyright (c) 2005-2010 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
-# All rights reserved.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+conky.config = {
+    alignment = 'top_left',
+    background = false,
+    border_width = 0,
 
-alignment top_left
-background no
-border_width 0
-cpu_avg_samples 2
-default_color white
-default_outline_color white
-default_shade_color white
-draw_borders no
-draw_graph_borders yes
-draw_outline no
-draw_shades no
-use_xft yes
-xftfont DejaVu Sans Mono:size=8
-gap_x 1450
-#gap_x 10
-gap_y 10
-minimum_size 520
-maximum_width 520
-net_avg_samples 2
-no_buffers yes
-out_to_console no
-out_to_stderr no
-extra_newline no
-own_window yes
-own_window_class Conky
-own_window_type desktop
-own_window_transparent no
-own_window_argb_visual yes
-own_window_argb_value 0
-stippled_borders 0
-update_interval 1.0
-uppercase no
-use_spacer none
-show_graph_scale no
-show_graph_range no
-double_buffer yes
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
 
-TEXT
+    default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+
+    use_xft = true,
+    font = 'DejaVu Sans Mono:size=8',
+
+    gap_x = 17,
+    gap_y = 17,
+
+	border_inner_margin = 0,
+	border_outer_margin = 10,
+    
+    minimum_width = 516,
+    maximum_width = 516,
+    
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+
+    own_window = true,
+	own_window_type = 'normal',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_title = '',
+	own_window_argb_visual = true,
+	own_window_argb_value = 120,
+	own_window_transparent = false,
+	own_window_colour = 'black',
+
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+    double_buffer = true,
+};
+
+conky.text = [[
 $color${font Canterbury:size=16}CPU | MEM $font${hr 3}
 
 ${color grey}Uptime:$color $uptime
 
-${color grey}RAM:$color${alignr 440}$memperc%${goto 135}${membar 4,385}
-#${color grey}Swap:$color${alignr 440}$swapperc%${goto 135}${swapbar 4,385}
+${color grey}RAM:$color${alignr 440}$memperc%${goto 140}${membar 4,385}
 
-${color grey}CPU0: $color${cpu cpu0}%${goto 135}${color grey}CPU1: $color${cpu cpu1}%${goto 265}${color grey}CPU2: $color${cpu cpu2}%${goto 395}${color grey}CPU3: $color${cpu cpu3}%
-${cpubar cpu0 4, 125}${goto 135}${cpubar cpu1 4,125}${goto 265}${cpubar cpu2 4, 125}${goto 395}${cpubar cpu3 4, 125}
-${cpugraph cpu0 25, 125}${goto 135}${cpugraph cpu1 25, 125}${goto 265}${cpugraph cpu2 25, 125}${goto 395}${cpugraph cpu3 25, 125}
+${color grey}CPU0: $color${cpu cpu0}%${goto 140}${color grey}CPU1: $color${cpu cpu1}%${goto 270}${color grey}CPU2: $color${cpu cpu2}%${goto 400}${color grey}CPU3: $color${cpu cpu3}%
+${cpubar cpu0 4, 125}${goto 140}${cpubar cpu1 4,125}${goto 270}${cpubar cpu2 4, 125}${goto 400}${cpubar cpu3 4, 125}
+${cpugraph cpu0 25, 125}${goto 140}${cpugraph cpu1 25, 125}${goto 270}${cpugraph cpu2 25, 125}${goto 400}${cpugraph cpu3 25, 125}
 
-${color grey}CPU4: $color${cpu cpu4}%${goto 135}${color grey}CPU5: $color${cpu cpu5}%${goto 265}${color grey}CPU6: $color${cpu cpu6}%${goto 395}${color grey}CPU7: $color${cpu cpu7}%
-${cpubar cpu4 4, 125}${goto 135}${cpubar cpu5 4,125}${goto 265}${cpubar cpu6 4, 125}${goto 395}${cpubar cpu7 4, 125}
-${cpugraph cpu4 25, 125}${goto 135}${cpugraph cpu5 25, 125}${goto 265}${cpugraph cpu6 25, 125}${goto 395}${cpugraph cpu7 25, 125}
+${color grey}CPU4: $color${cpu cpu4}%${goto 140}${color grey}CPU5: $color${cpu cpu5}%${goto 270}${color grey}CPU6: $color${cpu cpu6}%${goto 400}${color grey}CPU7: $color${cpu cpu7}%
+${cpubar cpu4 4, 125}${goto 140}${cpubar cpu5 4,125}${goto 270}${cpubar cpu6 4, 125}${goto 400}${cpubar cpu7 4, 125}
+${cpugraph cpu4 25, 125}${goto 140}${cpugraph cpu5 25, 125}${goto 270}${cpugraph cpu6 25, 125}${goto 400}${cpugraph cpu7 25, 125}
 
-${color grey}Processes:$color $processes${goto 135}${color grey}Running:$color $running_processes
+${color grey}CPU8: $color${cpu cpu8}%${goto 140}${color grey}CPU9: $color${cpu cpu9}%${goto 270}${color grey}CPU10: $color${cpu cpu10}%${goto 400}${color grey}CPU11: $color${cpu cpu11}%
+${cpubar cpu8 4, 125}${goto 140}${cpubar cpu9 4,125}${goto 270}${cpubar cpu10 4, 125}${goto 400}${cpubar cpu11 4, 125}
+${cpugraph cpu8 25, 125}${goto 140}${cpugraph cpu9 25, 125}${goto 270}${cpugraph cpu10 25, 125}${goto 400}${cpugraph cpu11 25, 125}
+
+${color grey}CPU12: $color${cpu cpu12}%${goto 140}${color grey}CPU13: $color${cpu cpu13}%${goto 270}${color grey}CPU14: $color${cpu cpu14}%${goto 400}${color grey}CPU15: $color${cpu cpu15}%
+${cpubar cpu12 4, 125}${goto 140}${cpubar cpu13 4,125}${goto 270}${cpubar cpu14 4, 125}${goto 400}${cpubar cpu15 4, 125}
+${cpugraph cpu12 25, 125}${goto 140}${cpugraph cpu13 25, 125}${goto 270}${cpugraph cpu14 25, 125}${goto 400}${cpugraph cpu15 25, 125}
+
+${color grey}Processes:$color $processes${goto 140}${color grey}Running:$color $running_processes
+]];
